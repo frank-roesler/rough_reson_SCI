@@ -5,9 +5,9 @@ addpath('matplotlib')
 load('julia0.02.mat')
 n4e = n4e_filled_left_right;
 TR = triangulation(n4e,c4n);
-% figure
-% triplot(TR);
-% drawnow
+figure
+triplot(TR);
+drawnow
 
 % Construct Dirichlet and Neumann boundaries:
 boundary = freeBoundary(TR);
@@ -34,11 +34,10 @@ fNodes  = setdiff(1:nC,dNodes); % free nodes
 [s,m,b,vol_T,mp_T] = fe_matrices(c4n,n4e,Nb);
 
 max_u = [];
-
 figure
 for k=-10:0.1:10
 %     Solve problem for M_inner:
-    k = k - 0.2i
+    k = k - 0.1i
     u         = zeros(nC,1);
     S         = s - k^2*m;   % weak version of -∆+1
     u(fNodes) = S(fNodes,fNodes)\b(fNodes); 
