@@ -22,10 +22,6 @@ function M = compute_matrix_fem(k,N,c4n,n4e,Nb,fNodes,r_ball)
         u         = zeros(nC,1);
         u(fNodes) = S(fNodes,fNodes)\b(fNodes); 
         u_bdry    = u(Nb(:,1));
-%         for beta=-N:N
-%             e_beta = e_bdry(:,beta+N+1);
-%             M(alpha+N+1,beta+N+1) = sum(conj(e_beta).*u_bdry.*dx);
-%         end
         M(alpha+N+1,:) = (conj(e_bdry).*u_bdry).'*dx;
     end
 end

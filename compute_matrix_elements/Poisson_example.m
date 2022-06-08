@@ -1,5 +1,4 @@
 clear
-addpath('matplotlib')
 
 % Load and plot mesh:
 load('julia0.02.mat')
@@ -46,15 +45,13 @@ for k=-10:0.1:10
     subplot(1,2,1)
     trisurf(n4e,c4n(:,1),c4n(:,2),real(u),'LineWidth',0.01,'EdgeColor','none');
     title('Real Part')
-    colormap('viridis')
     view([0,90])
-    caxis([-0.5,0.5])
+    caxis([-1,1])
     subplot(1,2,2)
     trisurf(n4e,c4n(:,1),c4n(:,2),imag(u),'LineWidth',0.01,'EdgeColor','none');
     title('Imaginary Part')
-    colormap('viridis')
     view([0,90])
-    caxis([-0.5,0.5])
+    caxis([-1,1])
     drawnow
     
     max_u = [max_u,max(abs(u(:)))];
