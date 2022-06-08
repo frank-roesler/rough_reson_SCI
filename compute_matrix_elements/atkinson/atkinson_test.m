@@ -1,12 +1,12 @@
 clear
 
-upper_bound_eigs = 30;
+upper_bound_eigs = 20;
 k_0 = -1i;
 k = 1-1i;
-N = 20;
+N = 10;
 
 % Load and plot mesh:
-load('julia0.02.mat')
+load('meshes/julia0.02.mat')
 n4e = n4e_filled_left_right;
 % Construct Dirichlet and Neumann boundaries:
 TR = triangulation(n4e,c4n);clc
@@ -26,9 +26,10 @@ fNodes  = setdiff(1:nC,dNodes); % free nodes
 [s,m,b,vol_T,mp_T] = fe_matrices(c4n,n4e,Nb);
 S = s(fNodes,fNodes);
 M = m(fNodes,fNodes);
-% [V,D] = eigs(full(S),full(M), N_eigs, 'smallestabs');
-[W, spectrum, iresult] = sptarn(S,M,0,upper_bound_eigs,1);
-W = W./sqrt(diag(W'*M*W))';
+[V, spectrum, iresult] = sptarn(S,M,0,upper_bound_eigs,1,'jmax',300);
+W = zeros(nC,size(V,2));
+W(fNodes,:) = V;
+W = W./sqrt(diag(W'*m*W))';
 
 M_in_atk = atkinson(k_0,k,c4n,Nb,N,W,spectrum,r_ball);
 M_in_direct_0 = compute_matrix_fem(k_0,N,c4n,n4e,Nb,fNodes,r_ball);
@@ -51,9 +52,18 @@ surf(-N:N,-N:N,real(M_in_direct_k))
 subplot(1,2,2)
 surf(-N:N,-N:N,imag(M_in_direct_k))
 
+%%
 
+wa = zeros(nC,1);
+wa(fNodes) = Wa(:,19);
+trisurf(n4e,c4n(:,1),c4n(:,2),real(wa),'LineWidth',0.01,'EdgeColor','none');
 
+figure
+ws = zeros(nC,1);
+ws(fNodes) = -Ws(:,19);
+trisurf(n4e,c4n(:,1),c4n(:,2),real(ws),'LineWidth',0.01,'EdgeColor','none');
 
+max(abs(wa-ws))
 
 
 
