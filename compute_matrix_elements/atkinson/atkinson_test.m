@@ -1,9 +1,9 @@
 clear
 
 upper_bound_eigs = 30;
-k_0 = 0;
+k_0 = -1i;
 k = 1-1i;
-N = 10;
+N = 20;
 
 % Load and plot mesh:
 load('julia0.02.mat')
@@ -24,7 +24,7 @@ dNodes  = unique(Db);           % Dirichlet boundary
 fNodes  = setdiff(1:nC,dNodes); % free nodes
 % Solve Dirichlet Poisson Problem:
 [s,m,b,vol_T,mp_T] = fe_matrices(c4n,n4e,Nb);
-S = s(fNodes,fNodes) - k_0^2*m(fNodes,fNodes);
+S = s(fNodes,fNodes);
 M = m(fNodes,fNodes);
 % [V,D] = eigs(full(S),full(M), N_eigs, 'smallestabs');
 [W, spectrum, iresult] = sptarn(S,M,0,upper_bound_eigs,1);
@@ -34,7 +34,7 @@ M_in_atk = atkinson(k_0,k,c4n,Nb,N,W,spectrum,r_ball);
 M_in_direct_0 = compute_matrix_fem(k_0,N,c4n,n4e,Nb,fNodes,r_ball);
 M_in_direct_k = compute_matrix_fem(k,N,c4n,n4e,Nb,fNodes,r_ball);
 
-%%
+%
 M_in_appr = M_in_direct_0 + M_in_atk;
 
 error = max(max(abs(M_in_appr - M_in_direct_k)))
