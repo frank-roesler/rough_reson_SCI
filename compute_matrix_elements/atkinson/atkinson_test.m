@@ -1,6 +1,6 @@
 clear
 
-upper_bound_eigs = 20;
+upper_bound_eigs = 30;
 k_0 = 0;
 k = 1-1i;
 N = 10;
@@ -31,20 +31,25 @@ M = m(fNodes,fNodes);
 W = W./sqrt(diag(W'*M*W))';
 
 M_in_atk = atkinson(k_0,k,c4n,Nb,N,W,spectrum,r_ball);
-M_in_direct = compute_matrix_fem(k,N,c4n,n4e,Nb,fNodes,r_ball);
+M_in_direct_0 = compute_matrix_fem(k_0,N,c4n,n4e,Nb,fNodes,r_ball);
+M_in_direct_k = compute_matrix_fem(k,N,c4n,n4e,Nb,fNodes,r_ball);
+
 %%
-error = max(max(abs(M_in_atk - M_in_direct')))
+M_in_appr = M_in_direct_0 + M_in_atk;
+
+error = max(max(abs(M_in_appr - M_in_direct_k)))
+
 %%
 subplot(1,2,1)
-surf(-N:N,-N:N,real(M_in_atk))
+surf(-N:N,-N:N,real(M_in_appr))
 subplot(1,2,2)
-surf(-N:N,-N:N,imag(M_in_atk))
+surf(-N:N,-N:N,imag(M_in_appr))
 
 figure
 subplot(1,2,1)
-surf(-N:N,-N:N,real(M_in_direct))
+surf(-N:N,-N:N,real(M_in_direct_k))
 subplot(1,2,2)
-surf(-N:N,-N:N,imag(M_in_direct))
+surf(-N:N,-N:N,imag(M_in_direct_k))
 
 
 
