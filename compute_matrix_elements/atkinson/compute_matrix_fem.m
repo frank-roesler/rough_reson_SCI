@@ -1,10 +1,10 @@
-function M = compute_matrix_fem(k,N,c4n,n4e,Nb,fNodes,r_ball)
+function M_in = compute_matrix_fem(k,N,c4n,n4e,Nb,fNodes,r_ball)
 % Computes matrix approximation for M_inner at specified value of k
 % directly from the FEM solution u.
     [nC,d] = size(c4n);
-    M = zeros(2*N+1);
+    M_in = zeros(2*N+1);
     
-    x = c4n(Nb(:,1),:);
+    x = c4n(Nb(:,1),:); % boundary of disk
     dx = vecnorm(x - c4n(Nb(:,2),:),2,2);
     e_bdry = exp(1i*(-N:N).*atan2(x(:,2),x(:,1)))/sqrt(2*pi*r_ball);
     
@@ -22,6 +22,6 @@ function M = compute_matrix_fem(k,N,c4n,n4e,Nb,fNodes,r_ball)
         u         = zeros(nC,1);
         u(fNodes) = S(fNodes,fNodes)\b(fNodes); 
         u_bdry    = u(Nb(:,1));
-        M(alpha+N+1,:) = (conj(e_bdry).*u_bdry).'*dx;
+        M_in(alpha+N+1,:) = (conj(e_bdry).*u_bdry).'*dx;
     end
 end
