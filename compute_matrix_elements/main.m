@@ -1,18 +1,18 @@
 clear
-
-mesh_path = 'meshes/helmholtz0.05.mat';
+addpath('/Users/frankrosler/Documents/MATLAB/matplotlib')
+mesh_path = 'meshes/julia0.02.mat';
 upper_bound_eigs = 60;
 [W,spectrum,c4n,n4e,fNodes,Nb,r_ball] = compute_eigenfunctions(mesh_path,upper_bound_eigs);
 
 %% Precompute M_in(k_0):
 N = 33; % half size of matrix M_in^n(k)
-k_0 = 2-0.05i;
+k_0 = 2-1i;
 M_in_direct_0 = compute_matrix_fem(k_0,N,c4n,n4e,Nb,fNodes,r_ball);
 
 %% Compute det(M_in + M_out) in complex plane:
-z1 = 1-0.1i;
-z2 = 3;
-hres = 500;
+z1 = -2i;
+z2 = 4;
+hres = 1000;
 L = build_lattice(z1, z2, hres);
 dets = zeros(size(L));
 
@@ -31,6 +31,7 @@ end
 %% Plot results:
 figure
 contour(real(L),imag(L),log(abs(dets)),100)
+colormap viridis
 colorbar
 hold on
 resonances = islocalmin(abs(dets),1) & islocalmin(abs(dets),2);

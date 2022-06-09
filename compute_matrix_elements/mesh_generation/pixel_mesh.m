@@ -1,11 +1,11 @@
 clear
 addpath /Users/frankrosler/Documents/MATLAB/distmesh-Original
-addpath /Users/frankrosler/Documents/MATLAB/Poisson_Finite_Elements
+% addpath /Users/frankrosler/Documents/MATLAB/Poisson_Finite_Elements
 
 d = 2;
 r_ball = 2.5;
 r = 0.2;
-h = 0.02;
+h = 0.1;
 npts = round(1/h)+1;
 R = 1.5+h/2;
 L = build_lattice(-R*(1+1i), R*(1+1i), h);
@@ -35,7 +35,7 @@ c4n = [c4n_outer; c4n_inner_new];
 n4e = [n4e_outer; n4e_inner_new + max(n4e_outer(:))];
 
 n4e_filled_left_right = join_inner_outer_mesh(c4n,n4e, R,h);
-
+n4e = n4e_filled_left_right;
 %% Plot Mesh:
 TR = triangulation(n4e_filled_left_right,c4n);
 figure
@@ -44,7 +44,7 @@ xlim([-r_ball-.1,r_ball+.1])
 ylim([-r_ball-.1,r_ball+.1])
 
 %%
-save(['experiment/julia',num2str(h),'.mat'], 'L', 'h', 'M', 'c4n', 'n4e_filled_left_right','r_ball');
+save(['julia_test',num2str(h),'.mat'], 'L', 'h', 'M', 'c4n', 'n4e','r_ball');
 
 
 

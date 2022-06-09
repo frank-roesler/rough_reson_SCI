@@ -1,8 +1,7 @@
 clear
 
 % Load and plot mesh:
-load('meshes/Mesh0-1_wide_coarse.mat')
-n4e = n4e_filled_left_right;
+load('meshes/julia_test0.1.mat')
 TR = triangulation(n4e,c4n);
 figure
 triplot(TR);
