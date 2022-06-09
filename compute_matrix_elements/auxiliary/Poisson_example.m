@@ -1,13 +1,14 @@
 clear
 
 % Load and plot mesh:
-load('meshes/julia_test0.1.mat')
+load('meshes/julia_small0.02.mat')
 TR = triangulation(n4e,c4n);
 figure
 triplot(TR);
 drawnow
+size(c4n,1)
 
-% Construct Dirichlet and Neumann boundaries:
+%% Construct Dirichlet and Neumann boundaries:
 boundary = freeBoundary(TR);
 b1 = boundary(:,1);
 b2 = boundary(:,2);
@@ -16,11 +17,11 @@ db2 = vecnorm(c4n(b2,:),2,2)<0.9*r_ball;
 Db = [b1(db1),b2(db2)];
 Nb = [b1(~db1),b2(~db2)];
 
-% % Plot Dirichlet boundary:
-% figure
-% patch('vertices',c4n,'faces',Db,'edgecol','k','LineWidth',0.1,'facecol',[.8,.9,1]);
-% axis off
-% drawnow
+% Plot Dirichlet boundary:
+figure
+patch('vertices',c4n,'faces',Db,'edgecol','k','LineWidth',0.1,'facecol',[.8,.9,1]);
+axis off
+drawnow
 
 [nC,d]  = size(c4n);            % number of nodes
 nE      = size(n4e,1);          % number of elements

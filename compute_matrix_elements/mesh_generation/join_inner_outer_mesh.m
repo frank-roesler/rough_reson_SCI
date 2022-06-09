@@ -1,6 +1,6 @@
-function n4e_new = join_inner_outer_mesh(c4n,n4e, R,h)
-[r_left1,c_left1] = find(abs(c4n(:,1)+(R-h))<h/1000);
-[r_left2,c_left2] = find(abs(c4n(:,1)+R)<h/1000);
+function n4e_new = join_inner_outer_mesh(c4n,n4e, Rx,Ry,h)
+[r_left1,c_left1] = find(abs(c4n(:,1)+(Rx-h))<h/1000);
+[r_left2,c_left2] = find(abs(c4n(:,1)+Rx)<h/1000);
 [c_left1,perm1] = sort(c4n(r_left1,:));
 [c_left2,perm2] = sort(c4n(r_left2,:));
 r_left1 = r_left1(perm1(:,2));
@@ -15,8 +15,8 @@ for i=1:length(r_left1)-1
 end
 %
 
-[r_right1,c_right1] = find(abs(c4n(:,1)-(R-h))<h/1000);
-[r_right2,c_right2] = find(abs(c4n(:,1)-R)<h/1000);
+[r_right1,c_right1] = find(abs(c4n(:,1)-(Rx-h))<h/1000);
+[r_right2,c_right2] = find(abs(c4n(:,1)-Rx)<h/1000);
 [c_right1,perm1] = sort(c4n(r_right1,:));
 [c_right2,perm2] = sort(c4n(r_right2,:));
 r_right1 = r_right1(perm1(:,2));
@@ -31,8 +31,8 @@ for i=1:length(r_right1)-1
 end
 %
 
-[r_up1,c_up1] = find(abs(c4n(:,2)-(R-h))<h/1000 & abs(c4n(:,1))<R-h/2);
-[r_up2,c_up2] = find(abs(c4n(:,2)-R)<h/1000 & abs(c4n(:,1))<R-h/2);
+[r_up1,c_up1] = find(abs(c4n(:,2)-(Ry-h))<h/1000 & abs(c4n(:,1))<Rx-h/2);
+[r_up2,c_up2] = find(abs(c4n(:,2)-Ry)<h/1000 & abs(c4n(:,1))<Rx-h/2);
 [c_up1,perm1] = sort(c4n(r_up1,:));
 [c_up2,perm2] = sort(c4n(r_up2,:));
 r_up1 = r_up1(perm1(:,2));
@@ -47,8 +47,8 @@ for i=1:length(r_up1)-1
 end
 %
 
-[r_low1,c_low1] = find(abs(c4n(:,2)+(R-h))<h/1000 & abs(c4n(:,1))<R-h/2);
-[r_low2,c_low2] = find(abs(c4n(:,2)+R)<h/1000 & abs(c4n(:,1))<R-h/2);
+[r_low1,c_low1] = find(abs(c4n(:,2)+(Ry-h))<h/1000 & abs(c4n(:,1))<Rx-h/2);
+[r_low2,c_low2] = find(abs(c4n(:,2)+Ry)<h/1000 & abs(c4n(:,1))<Rx-h/2);
 [c_low1,perm1] = sort(c4n(r_low1,:));
 [c_low2,perm2] = sort(c4n(r_low2,:));
 r_low1 = r_low1(perm1(:,2));

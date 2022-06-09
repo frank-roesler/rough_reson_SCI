@@ -1,4 +1,4 @@
-function [c4n_inner_new, n4e_inner_new] = remove_inner_boundary(c4n_inner,n4e_inner,c4n_outer,h,R)
+function [c4n_inner_new, n4e_inner_new] = remove_inner_boundary(c4n_inner,n4e_inner,c4n_outer,h)
 join_pts = [];
 for i=1:size(c4n_outer,1)
     eq = abs(c4n_inner-c4n_outer(i,:))<h/10;

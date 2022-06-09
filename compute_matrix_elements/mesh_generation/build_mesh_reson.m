@@ -1,5 +1,5 @@
-function [c4n, n4e] = build_mesh_reson(h)
-    L = build_lattice(-1.5-1.5i, 1.5+1.5i, h);
+function [c4n, n4e] = build_mesh_reson(h,Rx,Ry)
+    L = build_lattice_mesh(-Rx-Ry*1i, Rx+Ry*1i, h);
     M = ~in_Julia(L, 1000, 2);
     J = L(M);    
     nodes = zeros(4,length(J));
