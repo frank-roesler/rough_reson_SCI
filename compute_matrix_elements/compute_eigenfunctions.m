@@ -1,7 +1,6 @@
 function [W,spectrum,c4n,n4e,fNodes,Nb,r_ball] = compute_eigenfunctions(mesh_path,upper_bound_eigs)
     % Load and plot mesh:
     load(mesh_path)
-    n4e = n4e_filled_left_right;
     % Construct Dirichlet and Neumann boundaries:
     TR = triangulation(n4e,c4n);clc
     boundary = freeBoundary(TR);

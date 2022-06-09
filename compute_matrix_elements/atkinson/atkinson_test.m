@@ -6,7 +6,7 @@ k = 1-1i;
 N = 10;
 
 % Load and plot mesh:
-load('meshes/julia0.02.mat')
+load('meshes/helmholtz0.05.mat')
 n4e = n4e_filled_left_right;
 % Construct Dirichlet and Neumann boundaries:
 TR = triangulation(n4e,c4n);clc
