@@ -32,8 +32,8 @@ W(fNodes,:) = V;
 W = W./sqrt(diag(W'*m*W))';
 
 M_in_atk = atkinson(k_0,k,c4n,Nb,N,W,spectrum,r_ball);
-M_in_direct_0 = compute_matrix_fem(k_0,N,c4n,n4e,Nb,fNodes,r_ball);
-M_in_direct_k = compute_matrix_fem(k,N,c4n,n4e,Nb,fNodes,r_ball);
+M_in_direct_0 = compute_M_in_fem(k_0,N,c4n,n4e,Nb,fNodes,r_ball);
+M_in_direct_k = compute_M_in_fem(k,N,c4n,n4e,Nb,fNodes,r_ball);
 
 %
 M_in_appr = M_in_direct_0 + M_in_atk;

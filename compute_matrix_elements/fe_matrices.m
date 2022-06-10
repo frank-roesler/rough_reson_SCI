@@ -22,7 +22,7 @@ for j = 1:nE
     vol_T(j) = det(X_T)/factorial(d); 
     mp_T(j,:)= sum(c4n(n4e(j,:),:),1)/(d+1);
     for m = 1:d+1
-        b(n4e(j,m)) = b(n4e(j,m)) + (1/(d+1))*vol_T(j)*rhs(mp_T(j,:));
+        b(n4e(j,m)) = b(n4e(j,m)); % + (1/(d+1))*vol_T(j)*rhs(mp_T(j,:));
         for n = 1:d+1
             ctr = ctr+1; 
             I(ctr) = n4e(j,m); 
@@ -34,11 +34,11 @@ for j = 1:nE
 end
 s = sparse(I,J,X_s,nC,nC); 
 mass = sparse(I,J,X_m,nC,nC); 
-for j = 1:nNb
-    vol_S = norm(c4n(Nb(j,1),:)-c4n(Nb(j,2),:));
-    mp_S  = sum(c4n(Nb(j,:),:),1)/d;
-    for k = 1:d
-        b(Nb(j,k)) = b(Nb(j,k))+(1/d)*vol_S*N_data(mp_S);
-    end
-end
+% for j = 1:nNb
+%     vol_S = norm(c4n(Nb(j,1),:)-c4n(Nb(j,2),:));
+%     mp_S  = sum(c4n(Nb(j,:),:),1)/d;
+%     for k = 1:d
+%         b(Nb(j,k)) = b(Nb(j,k))+(1/d)*vol_S*N_data(mp_S);
+%     end
+% end
 end

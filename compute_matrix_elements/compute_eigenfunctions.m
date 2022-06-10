@@ -16,7 +16,7 @@ function [W,spectrum,c4n,n4e,fNodes,Nb,r_ball] = compute_eigenfunctions(mesh_pat
     dNodes  = unique(Db);           % Dirichlet boundary
     fNodes  = setdiff(1:nC,dNodes); % free nodes
     % Solve Dirichlet Poisson Problem:
-    [s,m,b,vol_T,mp_T] = fe_matrices(c4n,n4e,Nb);
+    [s,m] = fe_matrices(c4n,n4e,Nb);
     S = s(fNodes,fNodes);
     M = m(fNodes,fNodes);
     [V, spectrum, iresult] = sptarn(S,M,0,upper_bound_eigs,1,'jmax',300);
