@@ -8,10 +8,15 @@ function M_in = compute_M_in_fem(k,N,c4n,n4e,Nb,fNodes,r_ball)
     x2 = c4n(Nb(:,2),:); % boundary of disk
     t_1 = atan2(x1(:,2),x1(:,1));
     t_2 = atan2(x2(:,2),x2(:,1));
-    int_exp = r_ball*(exp(1i*Alpha.*t_2) - exp(1i*Alpha.*t_1))./(1i*Alpha*sqrt(2*pi*r_ball));
-    int_exp(:,N+1) = r_ball*mod(t_2 - t_1, 2*pi)/sqrt(2*pi*r_ball);
+    dt = mod(t_2-t_1,2*pi);
     
-    [s,m] = fe_matrices(c4n,n4e,Nb);
+    int_exp = (exp(1i*Alpha.*t_2) - exp(1i*Alpha.*t_1))./(1i*Alpha*sqrt(2*pi*r_ball));
+    int_exp(:,N+1) = mod(t_2 - t_1, 2*pi)/sqrt(2*pi*r_ball);
+    
+    int_t_exp = exp(1i*Alpha.*t_1)./(Alpha.^2*sqrt(2*pi*r_ball)).*(exp(1i*Alpha.*dt).*(1-1i*Alpha.*dt) - 1);
+    int_t_exp(:,N+1) = dt.^2./(2*sqrt(2*pi*r_ball));
+    
+    [s,m] = fe_matrices(c4n,n4e);
     S = s - k^2*m;   % weak version of -∆-k^2
     for alpha=-N:N
         b = zeros(nC,1);
@@ -24,8 +29,13 @@ function M_in = compute_M_in_fem(k,N,c4n,n4e,Nb,fNodes,r_ball)
         end
         u         = zeros(nC,1);
         u(fNodes) = S(fNodes,fNodes)\b(fNodes); 
-        u_bdry    = (u(Nb(:,1)) + u(Nb(:,2)))/2;
-        M_in(alpha+N+1,:) = (int_exp)'*u_bdry;
+        
+        u1 = u(Nb(:,1));
+        u2 = u(Nb(:,2));
+        dudt = (u2-u1)./dt;
+        int_A = int_exp'*u1;
+        int_B = int_t_exp'*dudt;
+        M_in(alpha+N+1,:) = r_ball*(int_A + int_B);
     end
     M_in = M_in.';
 end
