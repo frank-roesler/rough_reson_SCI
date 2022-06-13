@@ -39,3 +39,8 @@ function M_in = compute_M_in_fem(k,N,c4n,n4e,Nb,fNodes,r_ball)
     end
     M_in = M_in.';
 end
+
+
+function val = e_alpha(alpha,r_ball,x)
+    val = exp(1i*alpha.*atan2(x(2),x(1)))/sqrt(2*pi*r_ball);
+end

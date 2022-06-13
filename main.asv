@@ -31,7 +31,7 @@ dets = zeros(size(L));
 
 parfor i=1:length(L(:))
     k = L(i);
-    corrector = atkinson_corrector(k_0,k,c4n,Nb,N,W,spectrum,r_ball);
+    corrector = atkinson(k_0,k,c4n,Nb,N,W,spectrum,r_ball);
     M_in = M_in_direct_0 + corrector;
     M_out = compute_M_outer(k,N,r_ball);
     A = cN*(M_in + M_out)*cN/(2*r_ball);

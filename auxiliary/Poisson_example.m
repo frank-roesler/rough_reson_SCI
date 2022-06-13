@@ -30,7 +30,7 @@ fNodes  = setdiff(1:nC,dNodes); % free nodes
 
 
 % Solve Dirichlet Poisson Problem:
-[s,m,b,vol_T,mp_T] = fe_matrices(c4n,n4e,Nb);
+[s,m,b,vol_T,mp_T] = fe_matrices(c4n,n4e,Nb); % old version; doesn't work anymore.
 
 max_u = [];
 figure
