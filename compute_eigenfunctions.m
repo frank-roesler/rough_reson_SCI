@@ -6,8 +6,8 @@ function [W,spectrum,c4n,n4e,fNodes,Nb,r_ball] = compute_eigenfunctions(mesh_pat
     boundary = freeBoundary(TR);
     b1 = boundary(:,1);
     b2 = boundary(:,2);
-    db1 = vecnorm(c4n(b1,:),2,2)<0.9*r_ball;
-    db2 = vecnorm(c4n(b2,:),2,2)<0.9*r_ball;
+    db1 = vecnorm(c4n(b1,:),2,2)<r_ball-2*h;
+    db2 = vecnorm(c4n(b2,:),2,2)<r_ball-2*h;
     Db = [b1(db1),b2(db2)];
     Nb = [b1(~db1),b2(~db2)];
     

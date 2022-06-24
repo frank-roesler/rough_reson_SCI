@@ -1,7 +1,7 @@
 clear
 
 % Load and plot mesh:
-load('meshes/julia_small0.02.mat')
+load('meshes/julia0.02.mat')
 TR = triangulation(n4e,c4n);
 figure
 triplot(TR);
@@ -17,11 +17,11 @@ db2 = vecnorm(c4n(b2,:),2,2)<0.9*r_ball;
 Db = [b1(db1),b2(db2)];
 Nb = [b1(~db1),b2(~db2)];
 
-% Plot Dirichlet boundary:
-figure
-patch('vertices',c4n,'faces',Db,'edgecol','k','LineWidth',0.1,'facecol',[.8,.9,1]);
-axis off
-drawnow
+% % Plot Dirichlet boundary:
+% figure
+% patch('vertices',c4n,'faces',Db,'edgecol','k','LineWidth',0.1,'facecol',[.8,.9,1]);
+% axis off
+% drawnow
 
 [nC,d]  = size(c4n);            % number of nodes
 nE      = size(n4e,1);          % number of elements
@@ -30,11 +30,19 @@ fNodes  = setdiff(1:nC,dNodes); % free nodes
 
 
 % Solve Dirichlet Poisson Problem:
-[s,m,b,vol_T,mp_T] = fe_matrices(c4n,n4e,Nb); % old version; doesn't work anymore.
-
+[s,m] = fe_matrices(c4n,n4e); % old version; doesn't work anymore.
+b = zeros(nC,1);
+        for j = 1:size(Nb,1)
+            vol_S = norm(c4n(Nb(j,1),:)-c4n(Nb(j,2),:));
+            mp_S  = sum(c4n(Nb(j,:),:),1)/d;
+            for i = 1:d
+                b(Nb(j,i)) = b(Nb(j,i))+(1/d)*vol_S*e_alpha(5,r_ball,mp_S);
+            end
+        end
 max_u = [];
 figure
-for k=-10:0.1:10
+k_values = -10:0.1:10;
+for k=k_values
 %     Solve problem for M_inner:
     k = k - 0.1i
     u         = zeros(nC,1);
@@ -57,8 +65,9 @@ for k=-10:0.1:10
     max_u = [max_u,max(abs(u(:)))];
 end
 
+%%
 figure
-plot(max_u)
+plot(k_values,max_u)
 
 
 
