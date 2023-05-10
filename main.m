@@ -10,7 +10,6 @@
 %----------------------------------------------------------------------------
 
 clear
-addpath('/Users/frankrosler/Documents/MATLAB/matplotlib')
 mesh_path = 'meshes/koch4_uniform.mat';
 upper_bound_eigs = 1500;
 [W,spectrum,c4n,n4e,fNodes,Nb,r_ball] = compute_eigenfunctions(mesh_path,upper_bound_eigs);
@@ -44,7 +43,6 @@ end
 %% Plot results:
 figure('Position',[500,600,1000,300])
 contour(real(L),imag(L),log(abs(dets)),100)
-colormap viridis
 colorbar
 hold on
 resonances = islocalmin(abs(dets),1) & islocalmin(abs(dets),2);
